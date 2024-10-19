@@ -1,15 +1,24 @@
-import './App.css'
+
+import './index.css'
 import Header from './components/Header'
 import Content from './components/Content'
 
+
+
+
 function App() {
+   
+  
+
   return (
+   <>
     <div className="flex h-screen">
       <div className="flex flex-col flex-grow">
         <Header />
         <Content />
       </div>
     </div>
+</>
   );
 }
 
