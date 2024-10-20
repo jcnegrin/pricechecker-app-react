@@ -52,7 +52,7 @@ export const Card: React.FC = () => {
         producto:"Zumo",
         price:"$10.00",
         description:"Jugos de los Frutos del bosque",
-        imgUrl:"../src/assets/producto1.jpg",
+        imgUrl:"/producto1.jpg",
         title:"Product 1", 
       },
   
@@ -60,7 +60,7 @@ export const Card: React.FC = () => {
         producto:"Pizza",
         price:"$15.00",
         description:"Pìzza de Peperoni",
-        imgUrl:"./src/assets/producto2.jpg",
+        imgUrl:"/producto2.jpg",
         title:"Imagen de Pizza", 
       },
 
@@ -68,14 +68,14 @@ export const Card: React.FC = () => {
         producto:"Hamburguesa",
         price:"$12.00",
         description:"Hamburguesa cogeladas pack x6",
-        imgUrl:"../src/assets/producto3.jpg",
+        imgUrl:"./producto3.jpg",
         title:"Image de hamburguesa", 
       },
       {
         producto:"Leche",
         price:"$1.45",
         description:"Leche semi desnatada 60 ml",
-        imgUrl:"./src/assets/producto4.jpg",
+        imgUrl:"/producto4.jpg",
         title:"Image de leche", 
       },
 ];
