@@ -2,20 +2,19 @@
 
 import { useState, useEffect } from "react";
 
-export function useFetch(url) {
-//Estados para almacenar los productos
-const [data, setData] = useState(null);
-const [loading, setLoading] = useState(true); // Este estado controla si la peticion se esta realizando o ya a finalizado
+export function useFetch(url: string) {
+  //Estados para almacenar los productos
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true); // Este estado controla si la peticion se esta realizando o ya a finalizado
 
-//useEffect para haceer la solucitud al backend cuando el componente se monta
-useEffect(() => {
-    setLoading(true); //Por si recarga la pagina, que no haya un efecto secundario 
-   fetch(url)
-   .then((response) => response.json())
-   .then((data) => setData(data))
-   .finally(() => setLoading(false)); //Este metodo se ejecutara cundo hayan terminado las promesas
+  //useEffect para haceer la solucitud al backend cuando el componente se monta
+  useEffect(() => {
+    setLoading(true); //Por si recarga la pagina, que no haya un efecto secundario
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .finally(() => setLoading(false)); //Este metodo se ejecutara cundo hayan terminado las promesas
+  }, []); //[] se asegura que esto solo se ejecute una vez al montar el componente
 
-     }, []); //[] se asegura que esto solo se ejecute una vez al montar el componente
-    
-     return {data, loading} //Objeto
-    }
+  return { data, loading }; //Objeto
+}

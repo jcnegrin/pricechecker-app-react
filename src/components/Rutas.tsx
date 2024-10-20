@@ -1,8 +1,7 @@
-import React from 'react'
 import { Card } from 'primereact/card'
-import {BrowserRouter as Router, Routes, link, Route} from 'react-router-dom' ;
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom' ;
 
-function Routes(){
+function AppRoutes(){
 return(
     <>
     <Router>
@@ -18,4 +17,4 @@ return(
 
 }
 
-export default Routes;
+export default AppRoutes;
