@@ -31,7 +31,7 @@ const NavSidebar = (props: NavSidebarProps) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://pricechecker.negrinjuan.com/api/categories");
+        const response = await fetch("https://pricechecker.negrinjuan.com/api/categories");
         if (!response.ok) {
           throw new Error("Error fetching categories");
         }
