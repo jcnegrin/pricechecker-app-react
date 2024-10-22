@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Card from "../Card/Card";
 
+// Interfaces para las vistas
 interface ShopView {
   id: string;
   name: string;
 }
 
-interface ProductView {
+export interface ProductView {
   id: string;
   name: string;
   description: string;
@@ -19,7 +21,6 @@ interface GetProductsResponse {
   id: string;
   products: ProductView[];
 }
-
 
 const CategoryProducts = () => {
   const { shopId, categoryId } = useParams<{ shopId: string; categoryId: string }>();
@@ -34,11 +35,9 @@ const CategoryProducts = () => {
         const response = await fetch(
           `https://pricechecker.negrinjuan.com/api/products?categoryId=${categoryId}&shopId=${shopId}`
         );
-        
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
-
         const data: GetProductsResponse = await response.json();
         setProducts(data.products);
       } catch (err) {
@@ -47,37 +46,32 @@ const CategoryProducts = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, [categoryId, shopId]);
 
   if (loading) {
     return <div>Cargando productos...</div>;
   }
-
   if (error) {
     return <div>Error al cargar productos: {error}</div>;
   }
 
+  // Transformar los productos obtenidos a la estructura que espera el componente Card
+  const formattedProducts = products.map(product => ({
+    producto: product.name,
+    price: `${product.price.toFixed(2)} €`,
+    description: product.description,
+    imgUrl: product.imageUrl,
+    title: product.name,
+  }));
+
   return (
-    <>
+    <div>
       <h1>Productos de la Categoría {categoryId} en la tienda {shopId}</h1>
-      <ul>
-        {products.length > 0 ? (
-          products.map(product => (
-            <li key={product.id}>
-              <h2>{product.name}</h2>
-              <img src={product.imageUrl} alt={product.name} width="100" />
-              <p>{product.description}</p>
-              <p>Precio: {product.price.toFixed(2)} €</p>
-              <p>Tienda: {product.shop.name}</p>
-            </li>
-          ))
-        ) : (
-          <p>No hay productos disponibles en esta categoría.</p>
-        )}
-      </ul>
-    </>
+      {products.map((producto, id) => (
+        <Card key={id} producto={producto} />
+      ))}
+    </div>
   );
 };
 
