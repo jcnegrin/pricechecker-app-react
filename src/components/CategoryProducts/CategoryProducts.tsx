@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 const CategoryProducts = () => {
-  const { shopId, categoryId } = useParams();
+  const { shopId, categoryId } = useParams<{ shopId: string; categoryId: string }>();
 
   return (
     <div>

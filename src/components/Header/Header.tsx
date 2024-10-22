@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { FaBars, FaUser } from "react-icons/fa";
-import NavSidebar from "./NavSideBar";
+import NavSidebar from "../NavBar/NavSideBar";
+import { Shop } from "../../hooks/fetchCategories";
 
-export default function Header() {
+interface HeaderProps {
+  categories: Shop[];
+}
+
+export default function Header({ categories }: HeaderProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -31,7 +36,7 @@ export default function Header() {
           <FaUser size={24} className="cursor-pointer" />
         </div>
       </header>
-      <NavSidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <NavSidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} categories={categories} />
     </>
   );
 }

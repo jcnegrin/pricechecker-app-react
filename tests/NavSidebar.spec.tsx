@@ -1,50 +1,29 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
-import NavSidebar from "../src/components/NavSideBar";
+import NavSidebar from "../src/components/NavBar/NavSideBar";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { BrowserRouter } from "react-router-dom";
+import { Shop } from "../src/hooks/fetchCategories";  // Importa el tipo Shop si es necesario
 
-const mockCategoriesResponse = {
-  data: [
-    {
-      shopId: "1",
-      shop: "Mercadona",
-      categories: [
-        { id: "1", name: "Carne" },
-        { id: "2", name: "Pescado" },
-      ],
-    },
-    {
-      shopId: "2",
-      shop: "Lidl",
-      categories: [
-        { id: "3", name: "Lácteos" },
-        { id: "4", name: "Frutas" },
-      ],
-    },
-  ],
-};
-
-// Mock para fetch
-globalThis.fetch = vi.fn(() =>
-  Promise.resolve({
-    ok: true,
-    status: 200,
-    json: () => Promise.resolve(mockCategoriesResponse),
-    headers: new Headers(),
-    redirected: false,
-    statusText: "OK",
-    type: "basic",
-    url: "",
-    clone: () => null as any,
-    body: null,
-    bodyUsed: false,
-    arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
-    blob: () => Promise.resolve(new Blob()),
-    formData: () => Promise.resolve(new FormData()),
-    text: () => Promise.resolve(""),
-  } as Response)
-);
+// Datos de prueba (mock) para las categorías
+const mockCategories: Shop[] = [
+  {
+    shopId: "1",
+    shop: "Mercadona",
+    categories: [
+      { id: "1", name: "Carne" },
+      { id: "2", name: "Pescado" },
+    ],
+  },
+  {
+    shopId: "2",
+    shop: "Lidl",
+    categories: [
+      { id: "3", name: "Lácteos" },
+      { id: "4", name: "Frutas" },
+    ],
+  },
+];
 
 describe("NavSidebar Component", () => {
   afterEach(() => {
@@ -57,7 +36,11 @@ describe("NavSidebar Component", () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <NavSidebar isOpen={true} toggleSidebar={toggleSidebar} />
+          <NavSidebar
+            isOpen={true}
+            toggleSidebar={toggleSidebar}
+            categories={mockCategories} // Pasa las categorías como prop
+          />
         </BrowserRouter>
       );
     });
@@ -73,27 +56,29 @@ describe("NavSidebar Component", () => {
     expect(toggleSidebar).toHaveBeenCalled();
   });
 
-  it("should display shops and categories after data is fetched", async () => {
+  it("should display shops and categories", async () => {
     const toggleSidebar = vi.fn();
 
     await act(async () => {
       render(
         <BrowserRouter>
-          <NavSidebar isOpen={true} toggleSidebar={toggleSidebar} />
+          <NavSidebar
+            isOpen={true}
+            toggleSidebar={toggleSidebar}
+            categories={mockCategories} // Pasa las categorías como prop
+          />
         </BrowserRouter>
       );
     });
 
-    // Espera a que aparezcan los elementos de las tiendas
+    // Verifica que los elementos de las tiendas se muestran
     const shopElement = await waitFor(() => screen.getByText("Mercadona"));
     expect(shopElement).toBeInTheDocument();
 
-    // Verifica que al hacer clic en la tienda se desplieguen las categorías
-    await act(async () => {
-      fireEvent.click(shopElement);
-    });
+    // Simula clic en la tienda para mostrar las categorías
+    fireEvent.click(shopElement);
 
-    // Verifica que las categorías estén visibles
+    // Verifica que las categorías se muestran correctamente
     expect(await screen.findByText("Carne")).toBeInTheDocument();
     expect(await screen.findByText("Pescado")).toBeInTheDocument();
   });
