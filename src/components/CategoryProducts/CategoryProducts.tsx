@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductDetailModal from '../ProductDetailModal/ProductDetailModal';
 import Card from '../Card/Card';
@@ -58,6 +58,19 @@ const CategoryProducts = () => {
     setSelectedProduct(null);  // Cierra el modal
   };
 
+  useEffect(() => {
+    if (selectedProduct) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Limpiar efecto al desmontar componente
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [selectedProduct]);
+
   if (loading) {
     return <div>Cargando productos...</div>;
   }
@@ -67,19 +80,19 @@ const CategoryProducts = () => {
 
   return (
     <>
-      <h1>Productos de la Categoría {categoryId} en la tienda {shopId}</h1>
-      <ul>
+      {/* Grid de productos */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-4 gap-y-6 px-16">
         {products.length > 0 ? (
-          products.map((producto, id) => (
-            <li>
-              <Card key={id} producto={producto} />
-            </li>
+          products.map((producto) => (
+            <div key={producto.id} onClick={() => openModal(producto)} className='cursor-pointer'>
+              <Card producto={producto} />
+            </div>
           ))
         ) : (
           <p>No hay productos disponibles en esta categoría.</p>
-        )
-      }
-      </ul>
+        )}
+      </div>
+      {/* Modal de detalles del producto */}
       {selectedProduct && (
         <ProductDetailModal product={selectedProduct} closeModal={closeModal} />
       )}
