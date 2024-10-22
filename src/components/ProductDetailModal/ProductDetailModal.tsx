@@ -38,7 +38,7 @@ const ProductDetailModal = ({ product, closeModal }: ModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-3/4 max-w-5xl flex overflow-hidden relative">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-5xl mx-4 sm:w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 flex flex-col md:flex-row overflow-hidden relative">
         {/* Botón de cierre */}
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-20"
@@ -48,8 +48,8 @@ const ProductDetailModal = ({ product, closeModal }: ModalProps) => {
         </button>
 
         {/* Sección de detalles del producto */}
-        <div className="w-1/2 p-6 flex flex-col justify-center items-center">
-          <h2 className="text-xl font-bold mb-4 text-center">{product.name}</h2>
+        <div className="w-full md:w-1/2 p-6 flex flex-col justify-center items-center">
+          <h2 className="text-lg sm:text-xl font-bold mb-4 text-center">{product.name}</h2>
           <img
             src={product.imageUrl}
             alt={product.name}
@@ -63,11 +63,11 @@ const ProductDetailModal = ({ product, closeModal }: ModalProps) => {
         </div>
 
         {/* Sección de productos similares con scroll */}
-        <div className="w-1/2 p-6 border-l flex flex-col">
+        <div className="w-full md:w-1/2 p-6 border-t md:border-t-0 md:border-l flex flex-col">
           <div className="sticky top-0 bg-white z-10">
-            <h3 className="text-xl font-bold mb-4">Productos similares</h3>
+            <h3 className="text-lg sm:text-xl font-bold mb-4">Productos similares</h3>
           </div>
-          <div className="overflow-y-auto h-96">
+          <div className="overflow-y-auto max-h-60 sm:max-h-80">
             {loading ? (
               <p className="text-center">Cargando productos similares...</p>
             ) : error ? (
@@ -85,7 +85,7 @@ const ProductDetailModal = ({ product, closeModal }: ModalProps) => {
                       className="w-16 h-16 object-cover rounded-md mr-4"
                     />
                     <div>
-                      <h4 className="text-md font-semibold">
+                      <h4 className="text-sm sm:text-md font-semibold">
                         {similarProduct.name}
                       </h4>
                       <p className="text-sm text-gray-500">
