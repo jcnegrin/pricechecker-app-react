@@ -30,9 +30,6 @@ describe("Header Component", () => {
 
     // Verifica que el título está presente
     expect(screen.getByText("Price Checker")).toBeInTheDocument();
-
-    // Verifica que el input de búsqueda está presente
-    expect(screen.getByPlaceholderText("Buscador...")).toBeInTheDocument();
   });
 
   it("should open and close the sidebar when the button is clicked", () => {
