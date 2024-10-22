@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaUser } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import NavSidebar from "../NavBar/NavSideBar";
 import { Shop } from "../../hooks/fetchCategories";
 
