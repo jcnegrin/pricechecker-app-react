@@ -8,7 +8,7 @@ interface CardProps {
 // Componente Card simplificado
 const Card: React.FC<CardProps> = ({ producto }) => {
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden p-4">
+    <div className="h-full flex flex-col justify-between bg-white shadow-md rounded-lg overflow-hidden p-4">
       {/* Imagen del producto */}
       <div className="h-48 overflow-hidden">
         <img
