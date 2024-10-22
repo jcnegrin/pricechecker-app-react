@@ -2,17 +2,23 @@ import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { Shop } from "../../hooks/fetchCategories";
 
+
 const CategoriesOverview: React.FC = () => {
+  //Accede al contexto compartido que contiene un arreglo de categories el shop
   const { categories } = useOutletContext<{ categories: Shop[] }>();
 
+  //Mientras los datos se esten cargando, que muestre un mensaje de Loading..
   if (!categories) {
     return <div>Loading categories...</div>; // Muestra un estado de carga mientras se obtiene la data
   }
 
+  //Renderizado de las interfaces 
   return (
     <div className="p-4 space-y-8">
+     
       {" "}
       {/* Espacio entre los diferentes supermercados */}
+         {/*Mapeo de el arreglo de categorias para renderizar cada */}
       {categories.map((shop) => (
         <div key={shop.shopId}>
           {/* Encabezado del supermercado */}
@@ -29,6 +35,7 @@ const CategoriesOverview: React.FC = () => {
                 <div className="flex flex-col justify-center items-center h-20">
                   <h3 className="text-lg font-semibold text-gray-700">
                     {category.name}
+            
                   </h3>
                 </div>
               </Link>
