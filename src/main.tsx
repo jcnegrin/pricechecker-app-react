@@ -1,15 +1,25 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import { PrimeReactProvider } from "primereact/api"
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.tsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CategoryProducts from "./components/CategoryProducts.tsx";
 
 
-createRoot(document.getElementById('root')!).render(
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/shops/:shopId/categories/:categoryId",
+        element: <CategoryProducts />
+      }
+    ]
+  }
+]);
 
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <PrimeReactProvider>
-    <App />
-    </PrimeReactProvider>
-  </StrictMode>,
-
-)
+    <RouterProvider router={router} />
+  </StrictMode>
+);

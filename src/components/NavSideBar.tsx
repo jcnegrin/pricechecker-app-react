@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import { FaChevronDown, FaChevronRight } from "react-icons/fa";
+import { FaTimes, FaChevronDown, FaChevronRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface Category {
+  id: string;
   name: string;
 }
 
@@ -25,13 +26,12 @@ const NavSidebar = (props: NavSidebarProps) => {
   const [shops, setShops] = useState<Shop[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [openShops, setOpenShops] = useState<{ [key: string]: boolean }>({}); // Estado para gestionar los acordeones abiertos
+  const [openShops, setOpenShops] = useState<{ [key: string]: boolean }>({});
 
-  // Efecto para hacer la llamada a la API cuando el componente se monte
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("https://pricechecker.negrinjuan.com/api/categories");
+        const response = await fetch("http://localhost:8080/api/categories"); // Actualiza la URL
         if (!response.ok) {
           throw new Error("Error fetching categories");
         }
@@ -47,11 +47,10 @@ const NavSidebar = (props: NavSidebarProps) => {
     fetchCategories();
   }, []);
 
-  // Función para alternar el estado abierto o cerrado de un supermercado en el acordeón
   const toggleShop = (shopId: string) => {
     setOpenShops((prevState) => ({
       ...prevState,
-      [shopId]: !prevState[shopId], // Alternar entre abierto y cerrado
+      [shopId]: !prevState[shopId],
     }));
   };
 
@@ -66,27 +65,33 @@ const NavSidebar = (props: NavSidebarProps) => {
           props.isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
+        {/* Botón para cerrar el sidebar */}
         <div className="sticky top-0 bg-white z-10 p-4">
           <button onClick={props.toggleSidebar} className="mb-4">
             <FaTimes size={24} />
           </button>
         </div>
 
-        {/* Loading or error message */}
+        {/* Mostrar mensaje de carga o error */}
         {loading && <p>Loading categories...</p>}
         {error && <p className="text-red-500">{error}</p>}
 
-        {/* List of shops and categories */}
+        {/* Lista de supermercados y categorías */}
         {!loading && !error && (
           <ul>
             {shops.map((shop: Shop) => (
               <li key={shop.shopId}>
+                {/* Título del supermercado con acordeón */}
                 <div
                   className="flex justify-between items-center cursor-pointer py-2"
                   onClick={() => toggleShop(shop.shopId)}
                 >
                   <p className="font-bold text-lg">{shop.shop}</p>
-                  {openShops[shop.shopId] ? <FaChevronDown /> : <FaChevronRight />}
+                  {openShops[shop.shopId] ? (
+                    <FaChevronDown />
+                  ) : (
+                    <FaChevronRight />
+                  )}
                 </div>
 
                 {/* Mostrar categorías solo si el acordeón está abierto */}
@@ -94,8 +99,23 @@ const NavSidebar = (props: NavSidebarProps) => {
                   <ul className="ml-4">
                     {shop.categories.map((category) => (
                       <li key={category.name} className="py-1">
-                        <a href="#">{category.name}</a>
+                        <Link
+                          to={`/shops/${shop.shopId}/categories/${category.id}`}
+                          className="text-neutral-600 hover:underline"
+                          onClick={() => props.toggleSidebar()}
+                        >
+                          {category.name}
+                        </Link>
                       </li>
+                      // <li key={category.id} className="py-1">
+                      //   {/* Enlace hacia la categoría, incluyendo shopId y categoryId */}
+                      //   <Link
+                      //     to={`/shops/${shop.shopId}/categories/${category.id}`}
+                      //     className="text-blue-500 hover:underline"
+                      //   >
+                      //     {category.name}
+                      //   </Link>
+                      // </li>
                     ))}
                   </ul>
                 )}
@@ -105,6 +125,7 @@ const NavSidebar = (props: NavSidebarProps) => {
         )}
       </div>
 
+      {/* Fondo para cerrar el sidebar al hacer clic */}
       <div className="flex-1" onClick={props.toggleSidebar}></div>
     </div>
   );
