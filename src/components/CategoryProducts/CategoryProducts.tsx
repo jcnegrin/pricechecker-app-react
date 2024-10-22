@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductDetailModal from '../ProductDetailModal/ProductDetailModal';
+import Card from '../Card/Card';
 
 export interface ShopView {
   id: string;
@@ -21,7 +22,6 @@ export interface GetProductsResponse {
   products: ProductView[];
 }
 
-
 const CategoryProducts = () => {
   const { shopId, categoryId } = useParams<{ shopId: string; categoryId: string }>();
   const [products, setProducts] = useState<ProductView[]>([]);
@@ -36,11 +36,9 @@ const CategoryProducts = () => {
         const response = await fetch(
           `https://pricechecker.negrinjuan.com/api/products?categoryId=${categoryId}&shopId=${shopId}`
         );
-        
         if (!response.ok) {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
-
         const data: GetProductsResponse = await response.json();
         setProducts(data.products);
       } catch (err) {
@@ -49,7 +47,6 @@ const CategoryProducts = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, [categoryId, shopId]);
 
@@ -64,7 +61,6 @@ const CategoryProducts = () => {
   if (loading) {
     return <div>Cargando productos...</div>;
   }
-
   if (error) {
     return <div>Error al cargar productos: {error}</div>;
   }
@@ -74,18 +70,15 @@ const CategoryProducts = () => {
       <h1>Productos de la Categoría {categoryId} en la tienda {shopId}</h1>
       <ul>
         {products.length > 0 ? (
-          products.map(product => (
-            <li key={product.id} onClick={() => openModal(product)}>
-              <h2>{product.name}</h2>
-              <img src={product.imageUrl} alt={product.name} width="100" />
-              <p>{product.description}</p>
-              <p>Precio: {product.price.toFixed(2)} €</p>
-              <p>Tienda: {product.shop.name}</p>
+          products.map((producto, id) => (
+            <li>
+              <Card key={id} producto={producto} />
             </li>
           ))
         ) : (
           <p>No hay productos disponibles en esta categoría.</p>
-        )}
+        )
+      }
       </ul>
       {selectedProduct && (
         <ProductDetailModal product={selectedProduct} closeModal={closeModal} />

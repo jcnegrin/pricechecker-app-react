@@ -1,5 +1,5 @@
 import React from 'react';
-import CategoryProducts, { ProductView } from '../CategoryProducts/CategoryProducts';
+
 // Interfaz para el producto
 interface Producto {
   producto: string;
@@ -11,18 +11,19 @@ interface Producto {
 
 // Props para el componente Card
 interface CardProps {
-  producto: ProductView;
+  producto: Producto;
+  onClick: () => void;  // Nueva prop para manejar el clic
 }
 
 // Componente Card simplificado
-const Card: React.FC<CardProps> = ({ producto }) => {
+const Card: React.FC<CardProps> = ({ producto, onClick }) => {
   return (
-    <div>
+    <div onClick={onClick}>
       <div>
-        <img src={producto.imageUrl} alt="ImagenDeproducto" />
-        <p>{producto.price}€</p>
-        <h4>{producto.name}</h4>
-        
+        <img src={producto.imgUrl} alt={producto.title} />
+        <h4>{producto.producto}</h4>
+        <p>{producto.price}</p>
+        <p>{producto.description}</p>
       </div>
     </div>
   );
