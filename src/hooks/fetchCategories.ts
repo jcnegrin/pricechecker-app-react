@@ -14,7 +14,7 @@ export interface ApiResponse {
 }
 
 export const fetchCategories = async (): Promise<Shop[]> => {
-  const response = await fetch("http://localhost:8080/api/categories");
+  const response = await fetch("https://pricechecker.negrinjuan.com/api/categories");
   if (!response.ok) {
     throw new Error("Error fetching categories");
   }
