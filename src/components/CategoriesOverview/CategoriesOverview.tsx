@@ -1,12 +1,17 @@
 import React from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import { Shop } from "../../hooks/fetchCategories";
 
 const CategoriesOverview: React.FC = () => {
-  const { categories } = useOutletContext<{ categories: Shop[] }>();
+  const { shopId } = useParams<{ shopId: string;}>();
+  let { categories } = useOutletContext<{ categories: Shop[] }>();
 
   if (!categories) {
     return <div>Loading categories...</div>; // Muestra un estado de carga mientras se obtiene la data
+  }
+
+  if (shopId) {
+    categories = categories?.filter((shop) => shop.shopId === shopId);
   }
 
   return (
@@ -24,7 +29,7 @@ const CategoriesOverview: React.FC = () => {
               <Link
                 key={category.id}
                 to={`/shops/${shop.shopId}/categories/${category.id}`}
-                className="block p-4 border rounded-lg shadow hover:shadow-lg transition duration-300"
+                className="block p-4 border rounded-lg shadow hover:shadow-lg transition duration-300  bg-neutral-50"
               >
                 <div className="flex flex-col justify-center items-center h-20">
                   <h3 className="text-lg font-semibold text-gray-700">
