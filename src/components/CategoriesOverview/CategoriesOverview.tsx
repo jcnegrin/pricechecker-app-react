@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLoaderData, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { Shop } from "../../hooks/fetchCategories";
 
 const CategoriesOverview: React.FC = () => {

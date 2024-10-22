@@ -1,6 +1,5 @@
 {
   "files": [],
-  "include": ["src", "./setupTest.ts"],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }

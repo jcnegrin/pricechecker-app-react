@@ -7,7 +7,7 @@ interface BreadcrumbProps {
   location: ReturnType<typeof useLocation>;
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({ categories, location }) => {
+const Breadcrumb: React.FC<BreadcrumbProps> = ({ categories }) => {
   const { shopId, categoryId } = useParams<{ shopId: string; categoryId: string }>();
 
   if (!categories || categories.length === 0) {
