@@ -26,6 +26,10 @@ const router = createBrowserRouter([
         element: <CategoriesOverview /> // No necesita loader, ya que los datos se cargan en la raíz
       },
       {
+        path: "shops/:shopId",
+        element: <CategoriesOverview />
+      },
+      {
         path: "shops/:shopId/categories/:categoryId", // Ruta para categorías específicas
         element: <CategoryProducts />
       }

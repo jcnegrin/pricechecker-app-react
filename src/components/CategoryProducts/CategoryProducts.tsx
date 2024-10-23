@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Card from "../Card/Card";
 
-// Interfaces para las vistas
-interface ShopView {
+import ProductDetailModal from '../ProductDetailModal/ProductDetailModal';
+import Card from '../Card/Card';
+
+export interface ShopView {
+
   id: string;
   name: string;
 }
@@ -17,7 +19,7 @@ export interface ProductView {
   shop: ShopView;
 }
 
-interface GetProductsResponse {
+export interface GetProductsResponse {
   id: string;
   products: ProductView[];
 }
@@ -27,6 +29,7 @@ const CategoryProducts = () => {
   const [products, setProducts] = useState<ProductView[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductView | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -49,6 +52,27 @@ const CategoryProducts = () => {
     fetchProducts();
   }, [categoryId, shopId]);
 
+  const openModal = (product: ProductView) => {
+    setSelectedProduct(product);  // Abre el modal con el producto seleccionado
+  };
+
+  const closeModal = () => {
+    setSelectedProduct(null);  // Cierra el modal
+  };
+
+  useEffect(() => {
+    if (selectedProduct) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Limpiar efecto al desmontar componente
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [selectedProduct]);
+
   if (loading) {
     return <div>Cargando productos...</div>;
   }
@@ -66,12 +90,26 @@ const CategoryProducts = () => {
   }));
 
   return (
-    <div>
-      <h1>Productos de la Categoría {categoryId} en la tienda {shopId}</h1>
-      {products.map((producto, id) => (
-        <Card key={id} producto={producto} />
-      ))}
-    </div>
+
+    <>
+      {/* Grid de productos */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-4 gap-y-6 px-16">
+        {products.length > 0 ? (
+          products.map((producto) => (
+            <div key={producto.id} onClick={() => openModal(producto)} className='cursor-pointer'>
+              <Card producto={producto} />
+            </div>
+          ))
+        ) : (
+          <p>No hay productos disponibles en esta categoría.</p>
+        )}
+      </div>
+      {/* Modal de detalles del producto */}
+      {selectedProduct && (
+        <ProductDetailModal product={selectedProduct} closeModal={closeModal} />
+      )}
+    </>
+
   );
 };
 

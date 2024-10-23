@@ -42,7 +42,9 @@ describe("fetchCategories", () => {
 
     expect(categories).toEqual(mockCategoriesResponse.data);
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);
-    expect(globalThis.fetch).toHaveBeenCalledWith("https://localhost:8080/api/categories");
+
+    expect(globalThis.fetch).toHaveBeenCalledWith("https://pricechecker.negrinjuan.com/api/categories");
+
   });
 
   it("should throw an error if the response is not ok", async () => {
