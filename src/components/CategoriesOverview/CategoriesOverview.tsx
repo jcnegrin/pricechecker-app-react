@@ -3,6 +3,7 @@ import { Link, useOutletContext, useParams } from "react-router-dom";
 import { Shop } from "../../hooks/fetchCategories";
 
 
+
 const CategoriesOverview: React.FC = () => {
   const { shopId } = useParams<{ shopId: string;}>();
   let { categories } = useOutletContext<{ categories: Shop[] }>();
@@ -12,9 +13,11 @@ const CategoriesOverview: React.FC = () => {
     return <div>Loading categories...</div>; // Muestra un estado de carga mientras se obtiene la data
   }
 
+
   if (shopId) {
     categories = categories?.filter((shop) => shop.shopId === shopId);
   }
+
 
   return (
     <div className="p-4 space-y-8">

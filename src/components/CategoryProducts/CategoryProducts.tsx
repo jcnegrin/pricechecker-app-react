@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import ProductDetailModal from '../ProductDetailModal/ProductDetailModal';
 import Card from '../Card/Card';
 
 export interface ShopView {
+
   id: string;
   name: string;
 }
@@ -78,7 +80,17 @@ const CategoryProducts = () => {
     return <div>Error al cargar productos: {error}</div>;
   }
 
+  // Transformar los productos obtenidos a la estructura que espera el componente Card
+  const formattedProducts = products.map(product => ({
+    producto: product.name,
+    price: `${product.price.toFixed(2)} €`,
+    description: product.description,
+    imgUrl: product.imageUrl,
+    title: product.name,
+  }));
+
   return (
+
     <>
       {/* Grid de productos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-x-4 gap-y-6 px-16">
@@ -97,6 +109,7 @@ const CategoryProducts = () => {
         <ProductDetailModal product={selectedProduct} closeModal={closeModal} />
       )}
     </>
+
   );
 };
 

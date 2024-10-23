@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { ProductView } from '../CategoryProducts/CategoryProducts';
+
 
 interface CardProps {
   producto: ProductView;
@@ -7,6 +9,7 @@ interface CardProps {
 
 // Componente Card simplificado
 const Card: React.FC<CardProps> = ({ producto }) => {
+
   return (
     <div className="h-full flex flex-col justify-between bg-white shadow-md rounded-lg overflow-hidden p-4">
       {/* Imagen del producto */}
@@ -28,6 +31,7 @@ const Card: React.FC<CardProps> = ({ producto }) => {
         </h4>
 
         <p className="text-lg font-semibold text-gray-700">{producto.price.toFixed(2)} €</p>
+
       </div>
     </div>
   );
